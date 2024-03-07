@@ -14,8 +14,13 @@ socket.on('open', () => {
 
 // Mesaj alındığında
 socket.on('message', (message) => {
-  console.log('WebSocket Response:', message);
+  console.log('WebSocket Response:', message.toString());
 
   // Bağlantıyı kapatma
   socket.close();
+});
+
+// Hata yakalama
+socket.on('error', (error) => {
+  console.error('WebSocket Error:', error.message);
 });
