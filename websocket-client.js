@@ -1,5 +1,3 @@
-const WebSocket = require('ws');
-
 // WebSocket bağlantısı
 const socket = new WebSocket('ws://localhost:3000/api/v1/time');
 
@@ -8,7 +6,8 @@ socket.on('open', () => {
   console.log('WebSocket connection opened');
   
   // Mesaj gönderme
-  socket.send('Hello, WebSocket!');
+  const message = JSON.stringify({ text: 'Hello, WebSocket!' });
+  socket.send(message);
 });
 
 // Mesaj alındığında
