@@ -1,3 +1,5 @@
+const WebSocket = require('ws');
+
 // WebSocket bağlantısı
 const socket = new WebSocket('ws://localhost:3000/api/v1/time');
 
