@@ -22,5 +22,17 @@ socket.on('message', (message) => {
 
 // Hata yakalama
 socket.on('error', (error) => {
-  console.error('WebSocket Error:', error.message);
+  // RSV1 hatası olmadığında hata yazdır
+  if (error.code !== 'WS_ERR_UNEXPECTED_RSV_1') {
+    console.error('WebSocket Error:', error.message);
+  }
+});
+
+// Uygulamanın sonlanmaması için
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error.message);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection:', reason);
 });
