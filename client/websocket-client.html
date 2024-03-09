@@ -1,0 +1,34 @@
+<script>
+
+
+    const SERVER_ADDRESS = "192.168.1.57:5017"
+    const SOCKET_PROTOCOL = "ws"
+    const serverAddress = `${SOCKET_PROTOCOL}://${SERVER_ADDRESS}`;
+
+    console.log("connection...", serverAddress)
+    
+    const socket = new WebSocket(serverAddress);
+
+    socket.addEventListener('open', (event) => {
+        console.log('Bağlantı başarılı!');
+
+        setInterval(() => {
+            var data = '/api/v1/time';
+            console.log("Gönderiliyor...", data);
+            socket.send(data);
+        }, 5000);
+    });
+
+    socket.addEventListener('message', (event) => {
+        console.log('Alınan veri:', event.data);
+    });
+
+    socket.addEventListener('close', (event) => {
+        console.log('Bağlantı kesildi.');
+    });
+
+    socket.addEventListener('error', (event) => {
+        console.error('Hata oluştu:', event);
+    });
+
+</script>
