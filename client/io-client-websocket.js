@@ -1,4 +1,4 @@
-// io-client-websocket
+
 require('dotenv').config();
 
 const SERVER_ADDRESS = process.env.SERVER_ADDRESS || "127.0.0.1"
@@ -11,24 +11,25 @@ const SOCKET_PROTOCOL = process.env.SOCKET_PROTOCOL || "ws"
 
 const serverAddress = `${PROTOCOL}://${SERVER_ADDRESS}:${SOCKET_PORT}`;
 
-console.log("connection...", serverAddress)
 const io = require('socket.io-client');
 
+console.log("connection...", serverAddress)
 const socket = io(serverAddress, {
     transports: ['websocket'],
 });
 
 socket.on('connect', () => {
-    console.log('connected with socket.io-client over websocket');
+    console.log('connected with socket.io-client');
+
 
     setInterval(() => {
-        var data = '/api/v1/time'
-        console.log("sending...", data)
-        socket.emit('message', data);
+        var endpoint = '/api/v1/time'
+        console.log("sending...", endpoint)
+        socket.emit("get", endpoint);
     }, 5000);
 });
 
-socket.on('message', (data) => {
+socket.on('/api/v1/time', (data) => {
     console.log('Received data :', data);
 });
 

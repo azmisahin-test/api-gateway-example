@@ -14,7 +14,9 @@ const serverAddress = `${PROTOCOL}://${SERVER_ADDRESS}:${SOCKET_PORT}`;
 const io = require('socket.io-client');
 
 console.log("connection...", serverAddress)
-const socket = io(serverAddress);
+const socket = io(serverAddress, {
+  
+});
 
 socket.on('connect', () => {
     console.log('connected with socket.io-client');
