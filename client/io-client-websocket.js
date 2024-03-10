@@ -2,10 +2,10 @@
 require('dotenv').config();
 
 const SERVER_ADDRESS = process.env.SERVER_ADDRESS || "127.0.0.1"
-const HTTP_PORT = process.env.HTTP_PORT || "80"
-const HTTPS_PORT = process.env.HTTPS_PORT || "443"
-const TCP_PORT = process.env.TCP_PORT || "3000"
-const SOCKET_PORT = process.env.SOCKET_PORT || "5000"
+const HTTP_PORT = process.env.HTTP_PORT || "8080"
+const HTTPS_PORT = process.env.HTTPS_PORT || "8080"
+const TCP_PORT = process.env.TCP_PORT || "8080"
+const SOCKET_PORT = process.env.SOCKET_PORT || "8080"
 const PROTOCOL = process.env.PROTOCOL || "http"
 const SOCKET_PROTOCOL = process.env.SOCKET_PROTOCOL || "ws"
 
@@ -19,6 +19,7 @@ const socket = io(serverAddress, {
 });
 
 socket.on('connect', () => {
+
     console.log('connected with socket.io-client');
 
 
@@ -27,12 +28,21 @@ socket.on('connect', () => {
         console.log("sending...", endpoint)
         socket.emit("get", endpoint);
     }, 5000);
+
 });
 
 socket.on('/api/v1/time', (data) => {
-    console.log('Received data :', data);
+    console.log('Received Data :', data);
+});
+
+socket.on('message', (data) => {
+    console.log('Received Message :', data);
 });
 
 socket.on('disconnect', () => {
     console.log('Disconnected.');
+});
+
+socket.on('error', (data) => {
+    console.log('Error.', data);
 });
