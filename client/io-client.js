@@ -21,13 +21,13 @@ socket.on('connect', () => {
 
 
     setInterval(() => {
-        var data = '/api/v1/time'
-        console.log("sending...", data)
-        socket.emit('message', data);
+        var endpoint = '/api/v1/time'
+        console.log("sending...", endpoint)
+        socket.emit("get", endpoint);
     }, 5000);
 });
 
-socket.on('message', (data) => {
+socket.on('/api/v1/time', (data) => {
     console.log('Received data :', data);
 });
 
