@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Client</title>
+</head>
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+<script>
+  const serverAddress = 'http://localhost:8080'; // Change this to your server address
+
+  const socket = io(serverAddress, {
+    transports: ['websocket'],
+  });
+
+  socket.on('connect', () => {
+    console.log('Connected to server');
+
+    setInterval(() => {
+      const endpoint = '/api/v1/time';
+      console.log('Sending:', endpoint);
+      socket.emit('get', endpoint);
+    }, 5000);
+  });
+
+  socket.on('/api/v1/time', (data) => {
+    console.log('Received Data:', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from server');
+  });
+
+  socket.on('error', (error) => {
+    console.error('Error:', error);
+  });
+</script>
+
+</body>
+</html>
