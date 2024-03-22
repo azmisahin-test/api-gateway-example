@@ -22,27 +22,13 @@ socket.on('connect', () => {
 
     console.log('connected with socket.io-client');
 
-
-    setInterval(() => {
-        var endpoint = '/api/v1/time'
-        console.log("sending...", endpoint)
-        socket.emit("get", endpoint);
-    }, 5000);
+    socket.on("simulation_started", (data) => {
+        console.log('Received Data :', data);
+    });
 
 });
 
-socket.on('/api/v1/time', (data) => {
+
+socket.on("simulation_started", (data) => {
     console.log('Received Data :', data);
-});
-
-socket.on('message', (data) => {
-    console.log('Received Message :', data);
-});
-
-socket.on('disconnect', () => {
-    console.log('Disconnected.');
-});
-
-socket.on('error', (data) => {
-    console.log('Error.', data);
 });

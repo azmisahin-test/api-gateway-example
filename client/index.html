@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocketIO Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js" crossorigin="anonymous"></script>
+    <script>
+        const socket = io("http://127.0.0.1:8280"); // SocketIO sunucusuna bağlan
+        console.log(socket)
+
+        socket.on('connect', () => {
+            console.log("connected?", socket.connected); // Bağlı mı?
+        })
+
+
+        socket.on("/simulation/status", (data) => {
+
+            console.log("/simulation/status", data)
+        });
+
+        socket.on("/simulation/status/instance", (data) => {
+
+            console.log("/simulation/status/instance", data)
+        });
+
+        socket.on("/simulation/status/item", (data) => {
+
+            console.log("/simulation/status/item", data)
+        });
+    </script>
+</head>
+
+<body>
+    <h1>SocketIO Test</h1>
+</body>
+
+</html>
