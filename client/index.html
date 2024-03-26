@@ -8,27 +8,61 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js" crossorigin="anonymous"></script>
     <script>
         const socket = io("http://127.0.0.1:8280"); // SocketIO sunucusuna bağlan
-        console.log(socket)
+
+        console.log("connection...", "http://127.0.0.1:8280")
+
 
         socket.on('connect', () => {
-            console.log("connected?", socket.connected); // Bağlı mı?
+
+            console.log('connected with web socket.io-client');
+
+
+            socket.on("home", (data) => {
+                console.log('home', data);
+            });
+
+            socket.on("/api/v1/time", (data) => {
+                console.log('response:/api/v1/time', data);
+            });
+
+
+            // test
+            setInterval(() => {
+                var endpoint = '/api/v1/time'
+                console.log("get:/api/v1/time", endpoint)
+                socket.emit("get", endpoint);
+            }, 5000);
+
+
+            socket.on("simulation_status", (data) => {
+                console.log('simulation_status', data);
+            });
+
+            socket.on("simulation_sampler_status", (data) => {
+                console.log('simulation_sampler_status', data);
+            });
+
+            socket.on("simulation_instance_status", (data) => {
+                console.log('simulation_instance_status', data);
+            });
+
+        });
+
+        socket.on('message', (data) => {
+            console.log('message', data);
         })
 
+        socket.on('error', (data) => {
+            console.log('error', data);
+        })
 
-        socket.on("/simulation/status", (data) => {
+        socket.on('close', (data) => {
+            console.log('close', data);
+        })
 
-            console.log("/simulation/status", data)
-        });
-
-        socket.on("/simulation/status/instance", (data) => {
-
-            console.log("/simulation/status/instance", data)
-        });
-
-        socket.on("/simulation/status/item", (data) => {
-
-            console.log("/simulation/status/item", data)
-        });
+        socket.on('disconnect', (data) => {
+            console.log('disconnect', data);
+        })
     </script>
 </head>
 

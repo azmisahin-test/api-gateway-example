@@ -20,15 +20,52 @@ const socket = io(serverAddress, {
 
 socket.on('connect', () => {
 
-    console.log('connected with socket.io-client');
+    console.log('connected with web socket.io-client');
 
-    socket.on("simulation_started", (data) => {
-        console.log('Received Data :', data);
+
+    socket.on("home", (data) => {
+        console.log('home', data);
+    });
+
+    socket.on("/api/v1/time", (data) => {
+        console.log('response:/api/v1/time', data);
+    });
+
+
+    // test
+    setInterval(() => {
+        var endpoint = '/api/v1/time'
+        console.log("get:/api/v1/time", endpoint)
+        socket.emit("get", endpoint);
+    }, 5000);
+
+
+    socket.on("simulation_status", (data) => {
+        console.log('simulation_status', data);
+    });
+
+    socket.on("simulation_sampler_status", (data) => {
+        console.log('simulation_sampler_status', data);
+    });
+
+    socket.on("simulation_instance_status", (data) => {
+        console.log('simulation_instance_status', data);
     });
 
 });
 
+socket.on('message', (data) => {
+    console.log('message', data);
+})
 
-socket.on("simulation_started", (data) => {
-    console.log('Received Data :', data);
-});
+socket.on('error', (data) => {
+    console.log('error', data);
+})
+
+socket.on('close', (data) => {
+    console.log('close', data);
+})
+
+socket.on('disconnect', (data) => {
+    console.log('disconnect', data);
+})

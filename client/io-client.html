@@ -1,43 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WebSocket Client</title>
 </head>
+
 <body>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
-<script>
-  const serverAddress = 'http://localhost:8080'; // Change this to your server address
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+  <script>
+    const serverAddress = 'http://localhost:8080'; // Change this to your server address
 
-  const socket = io(serverAddress, {
-    transports: ['websocket'],
-  });
+    const socket = io(serverAddress, {
+      transports: ['websocket'],
+    });
 
-  socket.on('connect', () => {
-    console.log('Connected to server');
+    socket.on('connect', () => {
 
-    setInterval(() => {
-      const endpoint = '/api/v1/time';
-      console.log('Sending:', endpoint);
-      socket.emit('get', endpoint);
-    }, 5000);
-  });
+      console.log('connected with web socket.io-client');
 
-  socket.on('/api/v1/time', (data) => {
-    console.log('Received Data:', data);
-  });
 
-  socket.on('disconnect', () => {
-    console.log('Disconnected from server');
-  });
+      socket.on("home", (data) => {
+        console.log('home', data);
+      });
 
-  socket.on('error', (error) => {
-    console.error('Error:', error);
-  });
-</script>
+      socket.on("/api/v1/time", (data) => {
+        console.log('response:/api/v1/time', data);
+      });
+
+
+      // test
+      setInterval(() => {
+        var endpoint = '/api/v1/time'
+        console.log("get:/api/v1/time", endpoint)
+        socket.emit("get", endpoint);
+      }, 5000);
+
+
+      socket.on("simulation_status", (data) => {
+        console.log('simulation_status', data);
+      });
+
+      socket.on("simulation_sampler_status", (data) => {
+        console.log('simulation_sampler_status', data);
+      });
+
+      socket.on("simulation_instance_status", (data) => {
+        console.log('simulation_instance_status', data);
+      });
+
+    });
+
+    socket.on('message', (data) => {
+      console.log('message', data);
+    })
+
+    socket.on('error', (data) => {
+      console.log('error', data);
+    })
+
+    socket.on('close', (data) => {
+      console.log('close', data);
+    })
+
+    socket.on('disconnect', (data) => {
+      console.log('disconnect', data);
+    })
+  </script>
 
 </body>
+
 </html>

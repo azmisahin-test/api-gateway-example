@@ -24,31 +24,62 @@ const options = {
 };
 
 console.log("connection...", serverAddress)
+
 const socket = new WebSocket(serverAddress, options);
 
-socket.addEventListener('open', (event) => {
+socket.addEventListener('open', (data) => {
+
   console.log('connected with WebSocket');
 
-  setInterval(() => {
-    var endpoint = '/api/v1/time'
-    console.log("sending...", endpoint)
-    socket.emit("get", endpoint);
-  }, 5000);
+  socket.addEventListener('connect', () => {
 
-});
+    console.log('connected with web socket.io-client');
 
-socket.addEventListener('/api/v1/time', (event) => {
-  console.log('Received Data :', event.data);
-});
 
-socket.addEventListener('message', (event) => {
-  console.log('Received Message :', event.data);
-});
+    socket.addEventListener("home", (data) => {
+      console.log('home', data);
+    });
 
-socket.addEventListener('close', (event) => {
-  console.log('Disconnected.');
-});
+    socket.addEventListener("/api/v1/time", (data) => {
+      console.log('response:/api/v1/time', data);
+    });
 
-socket.addEventListener('error', (event) => {
-  console.error('Error :', event);
+
+    // test
+    setInterval(() => {
+      var endpoint = '/api/v1/time'
+      console.log("get:/api/v1/time", endpoint)
+      socket.emit("get", endpoint);
+    }, 5000);
+
+
+    socket.addEventListener("simulation_status", (data) => {
+      console.log('simulation_status', data);
+    });
+
+    socket.addEventListener("simulation_sampler_status", (data) => {
+      console.log('simulation_sampler_status', data);
+    });
+
+    socket.addEventListener("simulation_instance_status", (data) => {
+      console.log('simulation_instance_status', data);
+    });
+
+  });
+
+  socket.addEventListener('message', (data) => {
+    console.log('message', data);
+  })
+
+  socket.addEventListener('error', (data) => {
+    console.log('error', data);
+  })
+
+  socket.addEventListener('close', (data) => {
+    console.log('close', data);
+  })
+
+  socket.addEventListener('disconnect', (data) => {
+    console.log('disconnect', data);
+  })
 });

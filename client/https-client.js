@@ -16,7 +16,7 @@ const axios = require('axios');
 // HTTP Request
 const url = `${serverAddress}/api/v1/time`
 
-console.log("HTTPS Request", url )
+console.log("HTTPS Request", url)
 
 axios.get(url)
   .then(response => {
